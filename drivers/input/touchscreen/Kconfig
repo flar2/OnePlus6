@@ -1307,4 +1307,10 @@ config TOUCHSCREEN_HIMAX_CHIPSET
 
 source "drivers/input/touchscreen/hxchipset/Kconfig"
 
+config SWEEP2SLEEP
+        tristate "Sweep to put device to sleep"
+        default y
+        help
+          Say Y here to support sweep2sleep
+
 endif

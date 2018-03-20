@@ -64,11 +64,10 @@ Module.symvers
 /tar-install/
 
 #
-# git files that we don't want to ignore even if they are dot-files
+# git files that we don't want to ignore even it they are dot-files
 #
 !.gitignore
 !.mailmap
-!.cocciconfig
 
 #
 # Generated include files
@@ -116,5 +115,9 @@ all.config
 # Kdevelop4
 *.kdev4
 
-# fetched Android config fragments
-kernel/configs/android-*.cfg
+*.rej
+*.diff
+*.patch
+*.list
+out/*
+scripts/rkp_cfp/tmp/*

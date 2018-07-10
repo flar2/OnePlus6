@@ -178,5 +178,7 @@ obj-$(CONFIG_ESOC)              += esoc/
 obj-$(CONFIG_FPGA)		+= fpga/
 obj-$(CONFIG_SENSORS_SSC)		+= sensors/
 
+obj-y 	+= param_read_write/param_read_write.o
+
 
 

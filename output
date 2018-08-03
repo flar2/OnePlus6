@@ -1,0 +1,47 @@
+make[1]: Entering directory '/home/aaron/kernel/OP6/ElementalX/out'
+  CHK     include/config/kernel.release
+  GEN     ./Makefile
+  CHK     include/generated/uapi/linux/version.h
+  Using .. as source for kernel
+  CHK     include/generated/utsrelease.h
+  CHK     include/generated/timeconst.h
+  CHK     include/generated/bounds.h
+  CHK     include/generated/asm-offsets.h
+  CALL    ../scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+  DTC     arch/arm64/boot/dts/qcom/sdm845-v2.dtb
+  DTC     arch/arm64/boot/dts/qcom/sdm845-v2.1.dtb
+  CHK     kernel/config_data.h
+  DTC     arch/arm64/boot/dts/qcom/sdm845.dtb
+  DTC     arch/arm64/boot/dts/qcom/enchilada-dvt-v2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-evb-v2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-evb-v2.1-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-evt1-v2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-evt1-v2.1-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-evt2-cxo-v2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-evt2-cxo-v2.1-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-evt2-v2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-evt2-v2.1-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-mp-v2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-mp-v2.1-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-pvt-v2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-pvt-v2.1-backup-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-pvt-v2.1-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-t0-v2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-t0-v2.1-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/flan-evb-v2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/flan-evb-v2.1-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/sdm845-mtp-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/sdm845-v2-mtp-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/sdm845-v2.1-mtp-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-dvt-v2.1-backup-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-dvt-v2.1-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-dvt-v2.1-usb30-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/enchilada-evb-overlay.dtbo
+  DTC     arch/arm64/boot/dts/qcom/sdm845-v2.dtb
+  DTC     arch/arm64/boot/dts/qcom/sdm845.dtb
+  DTC     arch/arm64/boot/dts/qcom/sdm845-v2.1.dtb
+  Building modules, stage 2.
+  MODPOST 7 modules
+  CAT     arch/arm64/boot/Image.gz-dtb
+make[1]: Leaving directory '/home/aaron/kernel/OP6/ElementalX/out'

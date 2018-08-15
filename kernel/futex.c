@@ -1711,6 +1711,9 @@ static int futex_requeue(u32 __user *uaddr1, unsigned int flags,
 	struct futex_q *this, *next;
 	WAKE_Q(wake_q);
 
+	if (nr_wake < 0 || nr_requeue < 0)
+		return -EINVAL;
+
 	if (requeue_pi) {
 		/*
 		 * Requeue PI only works on two distinct uaddrs. This
@@ -1946,9 +1949,6 @@ retry_private:
 		requeue_futex(this, hb1, hb2, &key2);
 		drop_count++;
 	}
-
-	if (nr_wake < 0 || nr_requeue < 0)
-		return -EINVAL;
 
 	/*
 	 * We took an extra initial reference to the pi_state either

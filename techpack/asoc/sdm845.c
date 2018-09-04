@@ -3683,26 +3683,36 @@ err_lookup_state:
 	return ret;
 }
 
-extern void setHpSwGpioPin(int value);
 static bool msm_swap_gnd_mic(struct snd_soc_codec *codec, bool active)
 {
+	int value = 0;
 	int ret = 0;
 	struct snd_soc_card *card = codec->component.card;
 	struct msm_asoc_mach_data *pdata = snd_soc_card_get_drvdata(card);
 
-	pr_err("msm_swap_gnd_mic\n");
 	if (!pdata)
 		return false;
 
 	if (!wcd_mbhc_cfg.enable_usbc_analog) {
-		if(pdata->us_euro_gpio_value == 0) {
-			pdata->us_euro_gpio_value = 1;
-		} else {
-			pdata->us_euro_gpio_value = 0;
+		/* if usbc is not defined, swap using us_euro_gpio_p */
+		if (pdata->us_euro_gpio_p) {
+			value = msm_cdc_pinctrl_get_state(
+						pdata->us_euro_gpio_p);
+			if (value)
+				msm_cdc_pinctrl_select_sleep_state(
+						pdata->us_euro_gpio_p);
+			else
+				msm_cdc_pinctrl_select_active_state(
+						pdata->us_euro_gpio_p);
+		} else if (pdata->us_euro_gpio >= 0) {
+			value = gpio_get_value_cansleep(
+						pdata->us_euro_gpio);
+			gpio_set_value_cansleep(
+					pdata->us_euro_gpio, !value);
 		}
-		setHpSwGpioPin(pdata->us_euro_gpio_value);
-		pr_err("%s set us_euro_gpio %d active = %d\n", __func__,
-		pdata->us_euro_gpio_value, active);
+		pr_debug("%s: swap select switch %d to %d\n", __func__,
+			 value, !value);
+
 		ret = true;
 	} else {
 		/* if usbc is defined, swap using usbc_en2 */
@@ -6658,10 +6668,16 @@ static int msm_prepare_us_euro(struct snd_soc_card *card)
 				snd_soc_card_get_drvdata(card);
 	int ret = 0;
 
-	pr_err("msm_prepare_us_euro\n");
-
-	pdata->us_euro_gpio_value = 1;
-	setHpSwGpioPin(pdata->us_euro_gpio_value);
+	if (pdata->us_euro_gpio >= 0) {
+		dev_dbg(card->dev, "%s: us_euro gpio request %d", __func__,
+			pdata->us_euro_gpio);
+		ret = gpio_request(pdata->us_euro_gpio, "TAVIL_CODEC_US_EURO");
+		if (ret) {
+			dev_err(card->dev,
+				"%s: Failed to request codec US/EURO gpio %d error %d\n",
+				__func__, pdata->us_euro_gpio, ret);
+		}
+	}
 
 	return ret;
 }

@@ -10094,7 +10094,17 @@ static const unsigned int plug_type_extcon_tab[] = {
 
 #ifdef CONFIG_SOUND_CONTROL
 static int speaker_gain_val = 6;
+static bool headphone_jack = true;
 int sound_control_speaker_gain(int gain);
+
+static int __init get_model(char *cmdline_model)
+{
+	if (strstr(cmdline_model, "18801")) {
+		headphone_jack = false;
+	}
+	return 0;
+}
+__setup("androidboot.project_name=", get_model);
 
 static ssize_t headphone_gain_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
@@ -10216,6 +10226,17 @@ static struct kobj_attribute speaker_gain_attribute =
 		0664,
 		speaker_gain_show,
 		speaker_gain_store);
+
+static struct attribute *sound_control_attrs_6T[] = {
+		&mic_gain_attribute.attr,
+		&earpiece_gain_attribute.attr,
+		&speaker_gain_attribute.attr,
+		NULL,
+};
+
+static struct attribute_group sound_control_attr_group_6T = {
+		.attrs = sound_control_attrs_6T,
+};
 
 static struct attribute *sound_control_attrs[] = {
 		&headphone_gain_attribute.attr,
@@ -11172,7 +11193,11 @@ static int tavil_probe(struct platform_device *pdev)
 		pr_warn("%s kobject create failed!\n", __func__);
         }
 
-	ret = sysfs_create_group(sound_control_kobj, &sound_control_attr_group);
+	if (headphone_jack)
+		ret = sysfs_create_group(sound_control_kobj, &sound_control_attr_group);
+	else
+		ret = sysfs_create_group(sound_control_kobj, &sound_control_attr_group_6T);
+
         if (ret) {
 		pr_warn("%s sysfs file create failed!\n", __func__);
 	}

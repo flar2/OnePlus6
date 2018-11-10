@@ -1422,7 +1422,7 @@ static void gesture_judge(struct synaptics_ts_data *ts)
 	gesture_sign = gesture_buffer[0];
 
 	if (ts->project_version == 0x03) {
-		if (DouTap_gesture) {
+		if (DouTap_gesture || dt2w_switch) {
 			if (gesture_sign == SINGLE_TAP) {
 				is_double_tap = double_tap(ts);
 				if (is_double_tap == 1) {
@@ -2119,7 +2119,8 @@ static void gestures_enable(void)
 	struct synaptics_ts_data *ts = gl_ts;
 	ts->gesture_enable = (gestures_switch || s2w_switch || dt2w_switch ||
 			LeftVee_gesture || RightVee_gesture || DouSwip_gesture ||
-			Circle_gesture || UpVee_gesture || DouTap_gesture) ? 1 : 0;
+			Circle_gesture || UpVee_gesture || DouTap_gesture ||
+			Enable_gesture) ? 1 : 0;
 }
 #endif
 

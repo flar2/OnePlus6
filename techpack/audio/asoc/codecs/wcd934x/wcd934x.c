@@ -10253,7 +10253,6 @@ static struct kobj_attribute speaker_gain_attribute =
 static struct attribute *sound_control_attrs_6T[] = {
 		&mic_gain_attribute.attr,
 		&earpiece_gain_attribute.attr,
-		&speaker_gain_attribute.attr,
 		NULL,
 };
 

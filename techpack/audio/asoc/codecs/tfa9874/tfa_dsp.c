@@ -895,6 +895,11 @@ short tfa98xx_get_exttemp(struct tfa_device *tfa)
 
 /************************** tfa simple bitfield interfacing ***************************************/
 /* convenience functions */
+int tfa98xx_get_volume_level(struct tfa_device *tfa)
+{
+	return -TFA_GET_BF(tfa, VOL);
+}
+
 enum Tfa98xx_Error tfa98xx_set_volume_level(struct tfa_device *tfa, unsigned short vol)
 {
 	if(tfa->in_use == 0)

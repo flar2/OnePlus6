@@ -10116,8 +10116,12 @@ done:
 }
 
 #ifdef CONFIG_SOUND_CONTROL
+#include "../tfa9874/tfa98xx.h"
+int tfa98xx_get_volume_level(struct tfa_device *tfa);
+struct snd_soc_codec *tfa98xx_codec_ptr;
 static int speaker_gain_val = 6;
 static bool headphone_jack = true;
+
 int sound_control_speaker_gain(int gain);
 
 static int __init get_model(char *cmdline_model)
@@ -10222,11 +10226,44 @@ static struct kobj_attribute earpiece_gain_attribute =
 		earpiece_gain_show,
 		earpiece_gain_store);
 
-//0:mute  1:+3db  2:+6db  3:+9db  4:+12db  5:+15db  6:+18db
+//OnePlus 6: 0:mute  1:+3db  2:+6db  3:+9db  4:+12db  5:+15db  6:+18db
+//OnePlus 6T: 0 to 127 (mute)
+
+static int get_speaker_gain_6(void)
+{
+	return speaker_gain_val;
+}
+
+static int get_speaker_gain_6T(void)
+{
+	struct tfa98xx *tfa98xx = snd_soc_codec_get_drvdata(tfa98xx_codec_ptr);
+	return  tfa98xx_get_volume_level(tfa98xx->tfa);
+}
+
 static ssize_t speaker_gain_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
 {
-	return snprintf(buf, PAGE_SIZE, "%d\n",	speaker_gain_val);
+	if (headphone_jack) {
+		return snprintf(buf, PAGE_SIZE, "%d\n", get_speaker_gain_6());
+	} else {
+		return snprintf(buf, PAGE_SIZE, "%d\n",get_speaker_gain_6T());
+	}
+}
+
+static void set_speaker_gain_6(int value)
+{
+	if (value >= 0 && value <= 6)
+		speaker_gain_val = sound_control_speaker_gain(value);
+	else
+		speaker_gain_val = sound_control_speaker_gain(6);
+}
+
+static void set_speaker_gain_6T(int value)
+{
+	struct tfa98xx *tfa98xx = snd_soc_codec_get_drvdata(tfa98xx_codec_ptr);
+	if (value < 0 || value > 127)
+		value = 0;
+	tfa98xx_set_volume_level(tfa98xx->tfa, (unsigned short)value);
 }
 
 static ssize_t speaker_gain_store(struct kobject *kobj,
@@ -10236,10 +10273,11 @@ static ssize_t speaker_gain_store(struct kobject *kobj,
 
 	sscanf(buf, "%d", &input);
 
-	if (input >= 0 && input <= 6)
-		speaker_gain_val = sound_control_speaker_gain(input);
-	else
-		speaker_gain_val = sound_control_speaker_gain(6);
+	if (headphone_jack) {
+		set_speaker_gain_6(input);
+	} else {
+		set_speaker_gain_6T(input);
+	}
 
 	return count;
 }
@@ -10253,6 +10291,7 @@ static struct kobj_attribute speaker_gain_attribute =
 static struct attribute *sound_control_attrs_6T[] = {
 		&mic_gain_attribute.attr,
 		&earpiece_gain_attribute.attr,
+		&speaker_gain_attribute.attr,
 		NULL,
 };
 

@@ -2594,6 +2594,11 @@ static struct snd_soc_dai_driver tfa98xx_dai[] = {
 	},
 };
 
+#define CONFIG_SOUND_CONTROL
+#ifdef CONFIG_SOUND_CONTROL
+extern struct snd_soc_codec *tfa98xx_codec_ptr;
+#endif
+
 static int tfa98xx_probe(struct snd_soc_codec *codec)
 {
 	struct tfa98xx *tfa98xx = snd_soc_codec_get_drvdata(codec);
@@ -2613,6 +2618,9 @@ static int tfa98xx_probe(struct snd_soc_codec *codec)
 
 	tfa98xx->codec = codec;
 
+#ifdef CONFIG_SOUND_CONTROL
+	tfa98xx_codec_ptr = codec;
+#endif
 	ret = tfa98xx_load_container(tfa98xx);
 	pr_info("Container loading requested: %d\n", ret);
 

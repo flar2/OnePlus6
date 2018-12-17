@@ -10236,7 +10236,13 @@ static int get_speaker_gain_6(void)
 
 static int get_speaker_gain_6T(void)
 {
-	struct tfa98xx *tfa98xx = snd_soc_codec_get_drvdata(tfa98xx_codec_ptr);
+	struct tfa98xx *tfa98xx;
+
+	if (tfa98xx_codec_ptr == NULL)
+		return 0;
+
+	tfa98xx = snd_soc_codec_get_drvdata(tfa98xx_codec_ptr);
+
 	return  tfa98xx_get_volume_level(tfa98xx->tfa);
 }
 
@@ -10261,6 +10267,12 @@ static void set_speaker_gain_6(int value)
 static void set_speaker_gain_6T(int value)
 {
 	struct tfa98xx *tfa98xx = snd_soc_codec_get_drvdata(tfa98xx_codec_ptr);
+
+	if (tfa98xx_codec_ptr ==  NULL)
+		return;
+
+	tfa98xx = snd_soc_codec_get_drvdata(tfa98xx_codec_ptr);
+
 	if (value < 0 || value > 127)
 		value = 0;
 	tfa98xx_set_volume_level(tfa98xx->tfa, (unsigned short)value);

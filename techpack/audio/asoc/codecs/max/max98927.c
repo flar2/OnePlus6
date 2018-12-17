@@ -1514,7 +1514,12 @@ static int max98927_spk_gain_put(struct snd_kcontrol *kcontrol,
 struct snd_soc_codec *max98927_codec;
 int sound_control_speaker_gain(int gain)
 {
-	struct max98927_priv *max98927 = snd_soc_codec_get_drvdata(max98927_codec);
+	struct max98927_priv *max98927;
+
+	if (max98927_codec == NULL)
+		return 6;
+
+	max98927 = snd_soc_codec_get_drvdata(max98927_codec);
 
 	if (gain < ((1 << MAX98927_Speaker_Gain_Width) - 1)) {
 		max98927_wrap_update_bits(max98927, MAX98927_Speaker_Gain,

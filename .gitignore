@@ -120,3 +120,10 @@ all.config
 kernel/configs/android-*.cfg
 
 drivers/oneplus
+
+*.rej
+*.diff
+*.patch
+*.list
+out/*
+scripts/rkp_cfp/tmp/*

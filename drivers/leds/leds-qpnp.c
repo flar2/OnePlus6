@@ -2798,16 +2798,6 @@ static struct attribute *pwm_attrs[] = {
 	NULL
 };
 
-static struct attribute *lpg_attrs_6T[] = {
-	&dev_attr_pause_lo.attr,
-	&dev_attr_pause_hi.attr,
-	&dev_attr_start_idx.attr,
-	&dev_attr_ramp_step_ms.attr,
-	&dev_attr_lut_flags.attr,
-	&dev_attr_duty_pcts.attr,
-	NULL
-};
-
 static struct attribute *lpg_attrs[] = {
 	&dev_attr_pause_lo.attr,
 	&dev_attr_pause_hi.attr,

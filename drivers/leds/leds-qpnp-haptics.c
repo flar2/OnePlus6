@@ -1387,6 +1387,22 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 
 	return 0;
 }
+/* sysfs show debug registers */
+static ssize_t qpnp_hap_dump_regs_show(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	struct led_classdev *cdev = dev_get_drvdata(dev);
+	struct hap_chip *chip = container_of(cdev, struct hap_chip, cdev);
+	int count = 0, i;
+	u8 val;
+
+	for (i = 0; i < ARRAY_SIZE(qpnp_hap_dbg_regs); i++) {
+		qpnp_haptics_read_reg(chip, chip->base + qpnp_hap_dbg_regs[i],
+		&val, 1);
+		count += snprintf(buf + count, PAGE_SIZE - count,
+				"qpnp_haptics: REG_0x%x = 0x%x\n",
+				chip->base + qpnp_hap_dbg_regs[i],
+				val);
 
 void set_vibrate(int val)
 {

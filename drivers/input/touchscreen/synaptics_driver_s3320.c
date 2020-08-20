@@ -2407,6 +2407,7 @@ static ssize_t tp_sleep_write_func(struct file *file, const char *buffer, size_t
 			TPDTM_DMESG("Please enter 0 or 1 to open or close the sleep function\n");
 	}
 #endif
+
 	return count;
 }
 #endif

@@ -323,7 +323,6 @@ struct miscdevice param_misc = {
 
 static int __init param_init(void)
 {
-	int i;
 	int ret = 0;
 
 	if(param_ram_buffer_map((phys_addr_t)param_ram_zone.paddr,
